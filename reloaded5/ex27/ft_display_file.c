@@ -5,54 +5,38 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: briffard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/02 12:42:06 by briffard          #+#    #+#             */
-/*   Updated: 2021/11/03 15:39:24 by briffard         ###   ########.fr       */
+/*   Created: 2021/11/04 12:27:13 by briffard          #+#    #+#             */
+/*   Updated: 2021/11/04 12:28:00 by briffard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include<sys/types.h>
-#include<sys/stat.h>
 #include<fcntl.h>
 #include<unistd.h>
 
-//#define BUF_SIZE 4096
-
-void	ft_putstr(char *str)
+void	ft_display_file(int fd)
 {
-	while (*str)
-		write (1, str++, 1);
+	char	*buffer;
+
+	while (read(fd, &buffer, 1))
+		write (1, &buffer, 1);
 }
 
-int	ft_display_err(int nb)
+int	main(int argc, char	**argv)
 {
-	if (nb == 1)
-	{
-		write(2, "File name missing.\n", 19);
-		return (1);
-	}
-	if (nb > 2)
-	{
-		write(2, "Too many arguments.\n", 19);
-		return (1);
-	}
-	return (0);
-}
+	int	fd;
 
-int	main(int argc, char **argv)
-{
-	int		fd;
-	char	buf;
-
-	ft_display_err(argc);
 	fd = open(argv[1], O_RDONLY);
-	if (fd == -1)
-		return (1);
+	if (argc < 2)
+		write(2, "File name missing.\n", 19);
+	else if (argc > 2)
+		write(2, "Too many arguments.\n", 20);
 	else
 	{
-		while (read(fd, &buf, 1) != 0)
-			write (1, &buf, 1);
+		if (fd == -1)
+			write(2, "Cannot read file.\n", 18);
+		else
+			ft_display_file(fd);
 	}
-	if (close(fd) == -1)
-		return (1);
+	close(fd);
 	return (0);
 }

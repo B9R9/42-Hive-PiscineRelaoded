@@ -6,7 +6,7 @@
 #    By: briffard <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/02 12:32:35 by briffard          #+#    #+#              #
-#    Updated: 2021/11/03 14:00:02 by briffard         ###   ########.fr        #
+#    Updated: 2021/11/04 12:12:10 by briffard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ RM = rm -f
 all: $(NAME)
 
 $(NAME):
-	$(CC) $(FLAGS) -o $(NAME) $(SRC)
+	$(CC) $(FLAGS) -c $(SRC)
+	$(CC) -o $(NAME) *.o
 
 clean:
 	$(RM) *.o
